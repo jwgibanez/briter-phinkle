@@ -21,7 +21,7 @@ class CurrencyInfoViewModel(
         clearDbCurrencies()
     }
 
-    var orderBy: CurrencyInfoDao.OrderBy? = null
+    private var orderBy: CurrencyInfoDao.OrderBy? = null
 
     private val allCurrencies = MutableLiveData<List<CurrencyInfo>>()
 
