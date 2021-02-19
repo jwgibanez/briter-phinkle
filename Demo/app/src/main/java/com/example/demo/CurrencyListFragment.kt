@@ -10,7 +10,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.db.entities.CurrencyInfo
 import com.example.demo.databinding.FragmentCurrencyListBinding
 
-
 class CurrencyListFragment : Fragment() {
 
     private lateinit var binding: FragmentCurrencyListBinding
@@ -37,15 +36,6 @@ class CurrencyListFragment : Fragment() {
                 binding.currencies?.addAll(currencies)
                 binding.recyclerView.adapter?.notifyDataSetChanged()
             }
-        }
-    }
-
-    companion object {
-        fun newInstance() : CurrencyListFragment {
-            val fragment = CurrencyListFragment()
-            val bundle = Bundle()
-            fragment.arguments = bundle
-            return fragment
         }
     }
 }

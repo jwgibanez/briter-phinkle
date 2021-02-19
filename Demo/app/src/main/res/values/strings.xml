@@ -2,5 +2,7 @@
     <string name="app_name">Demo</string>
     <string name="load">LOAD</string>
     <string name="clear">CLEAR</string>
-    <string name="sort">SORT</string>
+    <string name="sorted">SORTED</string>
+    <string name="asc">ASC</string>
+    <string name="des">DES</string>
 </resources>
