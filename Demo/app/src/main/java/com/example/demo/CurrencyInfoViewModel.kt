@@ -5,7 +5,6 @@ import androidx.lifecycle.*
 import com.example.db.dao.CurrencyInfoDao
 import com.example.db.entities.CurrencyInfo
 import com.example.db.repositories.CurrencyInfoRepository
-import com.example.demo.databinding.ActivityDemoBinding
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
@@ -13,41 +12,35 @@ import kotlinx.coroutines.launch
 class CurrencyInfoViewModel(
     application: Application,
     private val repository: CurrencyInfoRepository,
-    private val binding: ActivityDemoBinding
 ) : AndroidViewModel(application) {
+
+    var orderBy = MutableLiveData<CurrencyInfoDao.OrderBy?>()
+
+    val allCurrencies = MutableLiveData<List<CurrencyInfo>>()
 
     init {
         // Start with empty db
         clearDbCurrencies()
     }
 
-    private var orderBy: CurrencyInfoDao.OrderBy? = null
-
-    private val allCurrencies = MutableLiveData<List<CurrencyInfo>>()
-
-    fun getAllCurrencies(): LiveData<List<CurrencyInfo>> = allCurrencies
-
     fun loadDbCurrencies() {
         // Toggle between sort each time
-        orderBy = when (orderBy) {
+        orderBy.value = when (orderBy.value) {
             CurrencyInfoDao.OrderBy.ASC -> CurrencyInfoDao.OrderBy.DES
             else -> CurrencyInfoDao.OrderBy.ASC
         }
-
-        binding.orderBy = orderBy
 
         viewModelScope.launch(Dispatchers.IO) {
             if (allCurrencies.value?.isEmpty() == true) {
                 repository.loadDefaultCurrencies(getApplication())
             }
-            allCurrencies.postValue(repository.getAllCurrencies(orderBy!!).first())
+            allCurrencies.postValue(repository.getAllCurrencies(orderBy.value!!).first())
         }
     }
 
     fun clearDbCurrencies() {
         // Reset sort
-        orderBy = null
-        binding.orderBy = orderBy
+        orderBy.value = null
 
         viewModelScope.launch(Dispatchers.IO) {
             repository.clear()

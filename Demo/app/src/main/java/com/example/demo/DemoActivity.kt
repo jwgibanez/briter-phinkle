@@ -11,7 +11,7 @@ class DemoActivity : AppCompatActivity() {
     private lateinit var binding: ActivityDemoBinding
 
     private val currencyViewModel: CurrencyInfoViewModel by viewModels {
-        CurrencyInfoViewModelFactory(application, (application as DemoApp).repository, binding)
+        CurrencyInfoViewModelFactory(application, (application as DemoApp).repository)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -26,12 +26,16 @@ class DemoActivity : AppCompatActivity() {
             .add(R.id.fragment_container_view, fragment)
             .commit()
 
-        currencyViewModel.getAllCurrencies().observe(this, { currencies ->
-            if (currencies.isNotEmpty()) {
-                fragment.update(currencies)
-            } else {
-                fragment.update(ArrayList())
-            }
-        })
+        currencyViewModel.apply {
+            allCurrencies.observe(this@DemoActivity, {
+                if (it.isNotEmpty()) {
+                    fragment.update(it)
+                } else {
+                    fragment.update(ArrayList())
+                }
+            })
+
+            orderBy.observe(this@DemoActivity, { binding.orderBy = it })
+        }
     }
 }
