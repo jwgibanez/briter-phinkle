@@ -76,6 +76,9 @@ Activity passes to fragment:
 #### UI Testing
 Test behaviour of main activity, including button clicks, rendering of list, etc.
 
+```
+$ ./gradlew test connectedAndroidTest
+```
 
 ### References:
 - [ViewModel Overview](https://developer.android.com/topic/libraries/architecture/viewmodel)
