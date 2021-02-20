@@ -8,7 +8,8 @@ import com.example.demo.databinding.ListItemCurrencyBinding
 import java.util.ArrayList
 
 class CurrencyListAdapter(
-    val currencies: ArrayList<CurrencyInfo>
+    val currencies: ArrayList<CurrencyInfo>,
+    private val listener: Listener?
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -20,7 +21,10 @@ class CurrencyListAdapter(
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         if (holder is ViewHolder) {
-            holder.binding.currency = currencies[position]
+            holder.binding.apply {
+                currency = currencies[position]
+                main.setOnClickListener { listener?.onItemClicked(currency!!) }
+            }
         }
     }
 
@@ -29,4 +33,9 @@ class CurrencyListAdapter(
     }
 
     class ViewHolder(val binding: ListItemCurrencyBinding) : RecyclerView.ViewHolder(binding.root)
+
+    interface Listener {
+
+        fun onItemClicked(currency: CurrencyInfo)
+    }
 }

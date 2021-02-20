@@ -14,6 +14,8 @@ class CurrencyListFragment : Fragment() {
 
     private lateinit var binding: FragmentCurrencyListBinding
 
+    var listener: CurrencyListAdapter.Listener? = null
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -23,7 +25,7 @@ class CurrencyListFragment : Fragment() {
         binding.currencies = ArrayList<CurrencyInfo>()
         binding.recyclerView.apply {
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-            adapter = CurrencyListAdapter(binding.currencies!!)
+            adapter = CurrencyListAdapter(binding.currencies!!, listener)
             addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
         }
         return binding.root
